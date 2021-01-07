@@ -42,3 +42,8 @@
     align-items: center;
     width: 80%;
 }
+
+.done {
+    color: black;
+    text-decoration: line-through;
+}

@@ -49,10 +49,23 @@ class App extends Component {
       .catch(err => console.error("handleSubmit Error: ", err))
   }
 
+  deleteTodo = id => {
+    axios
+      .delete(` https://mjr-todo-api.herokuapp.com/todo/delete/${id} `)
+      .then( () => {
+        this.setState({
+          todos: this.state.todos.filter(todo => {
+            return todo.id !== id
+          })
+      })
+    })
+      .catch(err => console.error("deleteTodo Error: ", err))
+  }
+
   renderTodos = () => {
     return this.state.todos.map(todo => {
       return (
-        <TodoItem key={todo.id} {...todo} />
+        <TodoItem key={todo.id} {...todo} deleteTodo={this.deleteTodo} />
       )
     })
   }
