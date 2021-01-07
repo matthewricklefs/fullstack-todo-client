@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
+import TodoItem from './todoItem';
 
 import './styles.css';
 
@@ -10,7 +11,7 @@ class App extends Component {
 
     this.state = {
       todo: "",
-      todos: []
+      todos: [],
     }
 
   }
@@ -51,9 +52,7 @@ class App extends Component {
   renderTodos = () => {
     return this.state.todos.map(todo => {
       return (
-        <div key={todo.id} className="todo-item">
-          {todo.title}
-        </div>
+        <TodoItem key={todo.id} {...todo} />
       )
     })
   }
