@@ -1,17 +1,78 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+import './styles.css';
+
+class App extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      todo: "",
+      todos: []
+    }
+
+  }
+
+  componentDidMount() {
+    axios
+      .get("https://mjr-todo-api.herokuapp.com/todos")
+      .then((res) => {
+       this.setState({
+        todos: res.data
+      })
+    })
+      .catch((err) => console.log(err))
+  }
+
+  handleChange = e => {
+    this.setState({
+      todo: e.target.value
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    console.log("submitted")
+  }
+
+  renderTodos = () => {
+    return this.state.todos.map(todo => {
+      return (
+        <div>
+          {todo.title}
+        </div>
+      )
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>To Do List</h1>
+
+        <form className="add-todo" onSubmit={this.handleSubmit}>
+
+          <input
+            type='text'
+            placeholder='add to do'
+            onChange={this.handleChange}
+            value={this.state.todo}
+          />
+
+        <button type='submit'>Add</button>
+
+        </form>
+
+        {this.renderTodos()}
+      </div>
+    )
+  }
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
